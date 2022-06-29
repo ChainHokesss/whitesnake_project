@@ -1,0 +1,15 @@
+django==4.0
+gunicorn==20.1.0
+djangorestframework==3.13.1
+psycopg2-binary
+django-environ==0.4.5
+djangorestframework-simplejwt
+django-countries==7.3.2
+celery==5.2.7
+django-filter==22.1
+django-rest-swagger==2.2.0
+redis==3.5.3
+mailchimp-marketing==3.0.75
+environ
+django-debug-toolbar
+drf-yasg
