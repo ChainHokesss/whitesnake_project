@@ -18,7 +18,7 @@ class SupplierCarSerializer(serializers.ModelSerializer):
 class CarDiscountSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
-        fields = ['id',]
+        fields = ('id', )
 
 class DiscountSerializer(serializers.Serializer):
     supplier_id = serializers.IntegerField()

@@ -32,23 +32,31 @@ AUTH_USER_MODEL = 'core.BaseUser'
 
 # Application definition
 
-INSTALLED_APPS = [
+LOCAL_APPS = [
+    'carshowroom.apps.CarshowroomConfig',
+    'core.apps.CoreConfig',
+    'customers.apps.CustomersConfig',
+    'suppliers.apps.SuppliersConfig',
+]
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'carshowroom.apps.CarshowroomConfig',
-    'core.apps.CoreConfig',
-    'customers.apps.CustomersConfig',
-    'suppliers.apps.SuppliersConfig',
+]
+
+THIRD_PARTIES_APPS = [
     'django_filters',
     'drf_yasg',
     'debug_toolbar',
     'rest_framework',
     'django_countries',
 ]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTIES_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -11,9 +11,9 @@ from .tasks import buy_suppliers_cars, accept_offer
 class CarshowroomViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
     queryset = CarshowroomModel.objects.all()
     serializer_class = CarshowroomSerializer
-    permission_classes =  [AllowAny]
+    permission_classes =  (AllowAny, )
 
-    @decorators.action(methods = ['GET'], detail = False)
+    @decorators.action(methods = ('GET', ), detail = False)
     def test_function(self, request):
         buy_suppliers_cars()
         return response.Response("sdf")

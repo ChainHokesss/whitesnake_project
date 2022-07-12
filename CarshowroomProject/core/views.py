@@ -12,18 +12,18 @@ from .services import UsersService
 class CarViewSet(ModelViewSet):
     serializer_class = CarSerializer
     # only admin
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny, )
     queryset = CarModel.objects.all()
     service = UsersService()
 
 class UserViewSet(ModelViewSet):
     serializer_class = UserSerializer
     # only admin
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny, )
     queryset = BaseUser.objects.all()
     service = UsersService()
 
-    @decorators.action(methods=['POST'], detail=False)
+    @decorators.action(methods=('POST', ), detail=False)
     def register(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -35,7 +35,7 @@ class UserViewSet(ModelViewSet):
         )
 
     @decorators.action(methods=['GET'], detail=False)
-    @decorators.permission_classes([IsAuthenticated])
+    @decorators.permission_classes((IsAuthenticated, ))
     def send_confirm_email(self, request):
         self.service.send_email(request.user)
         return Response('OK')
@@ -50,7 +50,7 @@ class UserViewSet(ModelViewSet):
 
         return Response("Error", status = status.HTTP_404_NOT_FOUND)
 
-    @decorators.action(methods=['POST'], detail=False)
+    @decorators.action(methods=('POST', ), detail=False)
     def send_restore_password_email(self, request):
         email = request.data.get('email')
         if not email:
@@ -65,7 +65,7 @@ class UserViewSet(ModelViewSet):
 class RestorePasswordView(GenericAPIView):
     serializer_class = RestorePasswordSerializer
     service =  UsersService()
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny, )
 
     def post(self, request, token):
         serializer = self.get_serializer(data = request.data)

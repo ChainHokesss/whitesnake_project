@@ -11,7 +11,7 @@ userseService = UsersService()
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarModel
-        fields = ['id', 'brand', 'body_type', 'issue_year', 'model', 'fuel_type', 'mileage']
+        fields = ('id', 'brand', 'body_type', 'issue_year', 'model', 'fuel_type', 'mileage')
         read_only_fields = ('id',)
 
     def create(self, validated_data):
@@ -20,7 +20,7 @@ class CarSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseUser
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
         read_only_fields = ('id',)
         extra_kwargs = {
             'password': {'write_only': True}
@@ -33,4 +33,4 @@ class RestorePasswordSerializer(serializers.ModelSerializer):
     password_2 = serializers.CharField(max_length = 240)
     class Meta:
         model = BaseUser
-        fields = ['password', 'password_2']
+        fields = ('password', 'password_2')

@@ -9,7 +9,7 @@ from core.permissions import EmailConfirmPermission
 
 
 class CreateOfferView(views.APIView):
-    permission_classes = [IsAuthenticated, EmailConfirmPermission]
+    permission_classes = (IsAuthenticated, EmailConfirmPermission)
 
     def post(self, request):
         accept_offer.delay(request.user.id, request.data)
@@ -24,7 +24,7 @@ class CustomerViewSet(
     mixins.RetrieveModelMixin
 ):
     # permission_classes = [IsAdminUser]
-    permission_classes = [AllowAny]
+    permission_classes = (AllowAny, )
     serializer_class = CustomerSerializer
     lookup_field = "user"
     queryset = CustomerModel.objects.all()

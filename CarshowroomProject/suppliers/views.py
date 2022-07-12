@@ -17,15 +17,15 @@ class SuppliersViewSet(
 ):
     serializer_class = SupplierSerializer
     queryset = SupplierModel.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (permissions.AllowAny, )
     service = SuppliersService()
 
-    @decorators.action(methods = ['GET'], detail = True)
+    @decorators.action(methods = ('GET', ), detail = True)
     def get_cars(self, request, pk):
-        cars = self.service.get_cars(supplier_id = pk)
+        cars = self.service.get_cars(supplier = self.service.get_supplier(pk))
         return Response(CarSerializer(cars, many = True).data)
 
-    @decorators.action(methods = ['GET'], detail = True)
+    @decorators.action(methods = ('GET', ), detail = True)
     def get_statistic(self, request, pk):
         supplier = self.service.get_supplier(supplier_id = pk)
         return Response(self.service.get_statistic(supplier), status = status.HTTP_200_OK)
@@ -33,11 +33,11 @@ class SuppliersViewSet(
 
 class SupplierCarViewSet(GenericViewSet, mixins.CreateModelMixin):
     serializer_class = SupplierCarSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (permissions.AllowAny, )
 
 class SuppliersDiscountView(generics.CreateAPIView):
     serializer_class = DiscountSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = (permissions.AllowAny, )
 
 
 

@@ -3,8 +3,8 @@ from rest_framework import decorators, status
 from rest_framework.permissions import IsAuthenticated
 
 class UpdateProfileMixin:
-    @decorators.action(methods = ['POST'], detail = False)
-    @decorators.permission_classes([IsAuthenticated])
+    @decorators.action(methods = ('POST', ), detail = False)
+    @decorators.permission_classes((IsAuthenticated,))
     def update_profile(self, request):
         instance = self.service.get_profile(user_id = request.user.id)
         serializer = self.get_serializer(instance, data = request.data)
@@ -17,8 +17,8 @@ class UpdateProfileMixin:
         )
 
 class GetProfileMixin:
-    @decorators.action(methods = ['GET'], detail = False)
-    @decorators.permission_classes([IsAuthenticated])
+    @decorators.action(methods = ('GET', ), detail = False)
+    @decorators.permission_classes((IsAuthenticated, ))
     def get_profile(self, request):
         instance = self.service.get_profile(user_id = request.user.id)
         return Response(
