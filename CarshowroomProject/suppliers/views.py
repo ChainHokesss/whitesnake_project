@@ -2,7 +2,7 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 from rest_framework import mixins, permissions, decorators, generics, status
 
-from core.serializers import CarSerializer, CarModel
+from core.serializers import CarSerializer
 from .models import SupplierModel
 from .serializers import SupplierSerializer, SupplierCarSerializer, DiscountSerializer
 from .services import SuppliersService

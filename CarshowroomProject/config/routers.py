@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import SimpleRouter
 
-from CarshowroomProject.core import CarViewSet, UserViewSet, RestorePasswordView
-from CarshowroomProject.suppliers import SuppliersViewSet, SupplierCarViewSet, SuppliersDiscountView
-from CarshowroomProject.carshowroom.views import CarshowroomViewSet
-from CarshowroomProject.customers.views import CustomerViewSet, CreateOfferView
+from core.views import CarViewSet, UserViewSet, RestorePasswordView
+from suppliers.views import SuppliersViewSet, SupplierCarViewSet, SuppliersDiscountView
+from carshowroom.views import CarshowroomViewSet
+from customers.views import CustomerViewSet, CreateOfferView
 
 cars_router = SimpleRouter()
 cars_router.register(r'cars', CarViewSet, basename = 'cars')

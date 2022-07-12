@@ -6,10 +6,10 @@ import string
 from django_countries import countries
 from enum import Enum
 
-from core.models import CarModel, BodyTypes, Brands, FuelTypes
-from suppliers.models import SupplierModel, SupplierCar, DiscountModel
-from carshowroom.models import CarshowroomModel, CarshowroomDiscountModel
-from carshowroom.tasks import accept_supplier
+from CarshowroomProject.core.models import CarModel, BodyTypes, Brands, FuelTypes
+from CarshowroomProject.suppliers.models import SupplierModel, SupplierCar, DiscountModel
+from CarshowroomProject.carshowroom.models import CarshowroomModel, CarshowroomDiscountModel
+
 
 class DefaultCharacteristics(Enum):
     body_type = random.choice(list(BodyTypes)).value
