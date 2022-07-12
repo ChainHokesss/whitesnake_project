@@ -13,8 +13,12 @@ def debug_task(self):
     print(f'Request: {self.request!r}')
 
 app.conf.beat_schedule = {
-    'change-user-status': {
-        'task': 'autoservices.tasks.buy_cars_from_suppliers',
+    'buy_suppliers_cars': {
+        'task': 'carshowroom.tasks.buy_suppliers_cars',
         'schedule': crontab(minute = '*/10'),
     },
+    'check_suppliers_benefit': {
+        'task': 'carshowroom.tasks.check_supplier_benefit',
+        'schedule': crontab(minute=0, hour='*/1'),
+    }
 }
