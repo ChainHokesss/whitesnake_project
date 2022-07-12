@@ -1,6 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from rest_framework import mixins, permissions, decorators, generics
+from rest_framework import mixins, permissions, decorators, generics, status
 
 from core.serializers import CarSerializer, CarModel
 from .models import SupplierModel
@@ -24,6 +24,12 @@ class SuppliersViewSet(
     def get_cars(self, request, pk):
         cars = self.service.get_cars(supplier_id = pk)
         return Response(CarSerializer(cars, many = True).data)
+
+    @decorators.action(methods = ['GET'], detail = True)
+    def get_statistic(self, request, pk):
+        supplier = self.service.get_supplier(supplier_id = pk)
+        return Response(self.service.get_statistic(supplier), status = status.HTTP_200_OK)
+
 
 class SupplierCarViewSet(GenericViewSet, mixins.CreateModelMixin):
     serializer_class = SupplierCarSerializer
