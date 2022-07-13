@@ -1,9 +1,11 @@
 import os
+import sys
 from pathlib import Path
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, os.path.join(BASE_DIR, 'src'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -21,10 +23,10 @@ AUTH_USER_MODEL = 'core.BaseUser'
 # Application definition
 
 LOCAL_APPS = [
-    'carshowroom.apps.CarshowroomConfig',
-    'core.apps.CoreConfig',
-    'customers.apps.CustomersConfig',
-    'suppliers.apps.SuppliersConfig',
+    'src.carshowroom.apps.CarshowroomConfig',
+    'src.core.apps.CoreConfig',
+    'src.customers.apps.CustomersConfig',
+    'src.suppliers.apps.SuppliersConfig',
 ]
 
 DJANGO_APPS = [

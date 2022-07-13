@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import SimpleRouter
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -8,9 +7,13 @@ from rest_framework_simplejwt.views import (
 )
 
 from .yasg import urlpatterns as doc_urls
-from .routers import routers_urls
 from config import settings
+from src.carshowroom.urls import carshowroom_urls
+from src.suppliers.urls import suppliers_urls
+from src.core.urls import core_urls
+from src.customers.urls import customers_urls
 
+routers_urls = carshowroom_urls + suppliers_urls + core_urls + customers_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
