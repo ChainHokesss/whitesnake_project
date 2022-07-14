@@ -8,5 +8,5 @@ customers_router.register(r'customers', CustomerViewSet, basename='customer')
 
 customers_urls = [
     path('api/customers/create_offer', CreateOfferView.as_view()),
-    path('api/customers/', include(customers_router.urls)),
+    path('api/', include(customers_router.urls)),
 ]
