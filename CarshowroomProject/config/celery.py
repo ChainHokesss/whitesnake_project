@@ -14,11 +14,15 @@ def debug_task(self):
 
 app.conf.beat_schedule = {
     'buy_suppliers_cars': {
-        'task': 'carshowroom.tasks.buy_suppliers_cars',
+        'task': 'src.carshowroom.tasks.buy_suppliers_cars',
         'schedule': crontab(minute = '*/10'),
     },
     'check_suppliers_benefit': {
-        'task': 'carshowroom.tasks.check_supplier_benefit',
+        'task': 'src.carshowroom.tasks.check_supplier_benefit',
         'schedule': crontab(minute=0, hour='*/1'),
+    },
+    'accept_offer': {
+        'task': 'src.carshowroom.tasks.accept_offer',
+        'schedule': crontab(minute = '*/10'),
     }
 }
