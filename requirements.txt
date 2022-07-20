@@ -13,3 +13,8 @@ mailchimp-marketing==3.0.75
 environ
 django-debug-toolbar
 drf-yasg
+pytest
+pytest_django
+flake8
+requests
+pytest-lazy-fixture

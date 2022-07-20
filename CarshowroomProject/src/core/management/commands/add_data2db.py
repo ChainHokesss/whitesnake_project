@@ -25,7 +25,7 @@ class Command(BaseCommand):
         self._generate_cars()
         self._generate_suppliers()
         self._generate_supplier_car()
-        self._generace_carshowroom()
+        self._generate_carshowrooms()
         self._generate_suppliers_discounts()
         self._generate_carshowroom_discounts()
         accept_supplier.delay()
@@ -65,21 +65,24 @@ class Command(BaseCommand):
             supplier_car.price = random.randint(5000, 200000)
             supplier_car.save()
 
-    def _generace_carshowroom(self):
+    def _generate_carshowrooms(self):
         for i in range(10):
-            charact1 = random.choice(list(DefaultCharacteristics))
-            charact2 = random.choice(list(DefaultCharacteristics))
-            CarshowroomModel.objects.get_or_create(
-                name = self.generate_random_string(random.randint(4, 10)),
-                location = random.choice(list(dict(countries))),
-                balance = random.randint(500000, 1000000),
-                car_characteristic = {
-                    charact1.name: charact1.value,
-                    charact2.name: charact2.value
-                },
-                client_discount = random.randint(0, 10),
-                number_of_prod = random.randint(20, 500),
-            )
+            self._generate_carshowroom()
+
+    def _generate_carshowroom(self):
+        charact1 = random.choice(list(DefaultCharacteristics))
+        charact2 = random.choice(list(DefaultCharacteristics))
+        return CarshowroomModel.objects.get_or_create(
+            name=self.generate_random_string(random.randint(4, 10)),
+            location=random.choice(list(dict(countries))),
+            balance=random.randint(500000, 1000000),
+            car_characteristic={
+                charact1.name: charact1.value,
+                charact2.name: charact2.value
+            },
+            client_discount=random.randint(0, 10),
+            number_of_prod=random.randint(20, 500),
+        )
 
     def _generate_suppliers_discounts(self):
         self._generate_discounts(SupplierModel, DiscountModel)

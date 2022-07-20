@@ -26,7 +26,7 @@ class SuppliersViewSet(
         return Response(CarSerializer(cars, many = True).data)
 
     @decorators.action(methods = ('GET', ), detail = True)
-    def get_statistic(self, request, pk):
+    def get_statistics(self, request, pk):
         supplier = self.service.get_supplier(supplier_id = pk)
         return Response(self.service.get_statistic(supplier), status = status.HTTP_200_OK)
 

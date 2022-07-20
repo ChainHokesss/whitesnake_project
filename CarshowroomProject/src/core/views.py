@@ -1,7 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
-from rest_framework import decorators, status, exceptions
+from rest_framework import decorators, status, exceptions, mixins
 from rest_framework.generics import GenericAPIView
 
 from src.core.serializers import CarSerializer, UserSerializer, RestorePasswordSerializer
@@ -9,14 +9,25 @@ from src.core.models import BaseUser, CarModel
 from src.core.services import UsersService
 
 
-class CarViewSet(ModelViewSet):
+class CarViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin
+):
     serializer_class = CarSerializer
     # only admin
     permission_classes = (AllowAny, )
     queryset = CarModel.objects.filter(is_active=True)
     service = UsersService()
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(
+    GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin
+):
     serializer_class = UserSerializer
     # only admin
     permission_classes = (AllowAny, )
@@ -31,7 +42,7 @@ class UserViewSet(ModelViewSet):
         self.service.send_email(user = user)
         return Response(
             self.service.get_tokens_for_user(user),
-            status=status.HTTP_200_OK
+            status=status.HTTP_201_CREATED
         )
 
     @decorators.action(methods=['GET'], detail=False)
@@ -59,7 +70,7 @@ class UserViewSet(ModelViewSet):
         user = self.service.get_user(email = email)
         self.service.send_restore_password_email(user)
 
-        return Response("Mail was send")
+        return Response("Mail was send", status=status.HTTP_200_OK)
 
 
 class RestorePasswordView(GenericAPIView):
@@ -77,4 +88,4 @@ class RestorePasswordView(GenericAPIView):
             return exceptions.ErrorDetail(detail = "passwords are not match")
         user.set_password(password_1)
         user.save()
-        return Response("Password was changed")
+        return Response("Password was changed", status=status.HTTP_202_ACCEPTED)

@@ -6,6 +6,10 @@ from src.core.models import CarModel
 
 
 class CarshowroomServices:
+    def create_carshowroom(self, carshowroom_data):
+        carshowroom, created = CarshowroomModel.objects.get_or_create(**carshowroom_data)
+        return carshowroom
+
     def get_carshowroom(self, id):
         return CarshowroomModel.objects.prefetch_related('car_list').get(id = id)
 
@@ -68,10 +72,11 @@ class CarshowroomServices:
 
         data['carshowroom cars'] = cars
         carshowroom_car = self.get_car_with_max_price(carshowroom)
+        if carshowroom_car:
+            car_max_price = {
+                'name': carshowroom_car.car.brand +  carshowroom_car.car.model,
+                'price': carshowroom_car.price
+            }
+            data['car with max price'] = car_max_price
 
-        car_max_price = {
-            'name': carshowroom_car.car.brand +  carshowroom_car.car.model,
-            'price': carshowroom_car.price
-        }
-        data['car with max price'] = car_max_price
         return data

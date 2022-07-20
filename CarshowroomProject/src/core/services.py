@@ -8,8 +8,8 @@ from src.core.models import BaseUser, CarModel
 
 class CarsService:
     def create_car(self, car_data):
-        car = CarModel.objects.get_or_create(**car_data)
-        return car[0]
+        car, created = CarModel.objects.get_or_create(**car_data)
+        return car
 
     def get_car(self, car_id=None, car_data=None):
         if car_id != None:

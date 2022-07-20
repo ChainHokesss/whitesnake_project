@@ -1,3 +1,4 @@
-from django.test import TestCase
+import pytest
 
-# Create your tests here.
+def test_create_offer():
+    pass
