@@ -1,5 +1,6 @@
 import pytest
 
+
 @pytest.mark.django_db
 def test_supplier_car_create(supplier, car, client):
     data = {
@@ -10,6 +11,7 @@ def test_supplier_car_create(supplier, car, client):
     }
     response = client.post('/api/supplier/cars/', data)
     assert response.status_code == 201
+
 
 @pytest.mark.django_db
 def test_supplier_discount_create(supplier, car, client):
@@ -26,6 +28,7 @@ def test_supplier_discount_create(supplier, car, client):
 
     response = client.post('/api/supplier/discount/', data)
     assert response.status_code == 201
+
 
 @pytest.mark.django_db
 def test_get_cars(supplier, car, client):

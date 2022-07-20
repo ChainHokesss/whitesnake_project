@@ -3,6 +3,7 @@ from rest_framework.routers import SimpleRouter
 
 from customers.views import CustomerViewSet, CreateOfferView
 
+
 customers_router = SimpleRouter()
 customers_router.register(r'customers', CustomerViewSet, basename='customer')
 

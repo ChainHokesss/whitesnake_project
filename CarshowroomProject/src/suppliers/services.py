@@ -3,13 +3,14 @@ from django.db.models import Sum
 from src.suppliers.models import SupplierModel
 from src.carshowroom.models import SupplierPurchaseHistory
 
+
 class SuppliersService:
     def create_supplier(self, supplier_data):
         supplier, created = SupplierModel.objects.get_or_create(**supplier_data)
         return supplier
 
     def get_supplier(self, supplier_id):
-        return SupplierModel.objects.prefetch_related('car_list').get(id = supplier_id)
+        return SupplierModel.objects.prefetch_related('car_list').get(id=supplier_id)
 
     def get_cars(self, supplier):
         return supplier.car_list.all()
@@ -17,7 +18,7 @@ class SuppliersService:
     def get_sold_cars(self, **filters):
         return SupplierPurchaseHistory.objects.select_related('carshowroom').filter(**filters)
 
-    def get_number_of_sold_cars(self, supplier, car = None, carshowroom = None):
+    def get_number_of_sold_cars(self, supplier, car=None, carshowroom=None):
         filters = {
             'supplier': supplier,
         }
@@ -39,17 +40,17 @@ class SuppliersService:
         car_list = self.get_cars(supplier)
 
         for car in car_list:
-            car_stats[car.brand +" "+car.model] = self.get_number_of_sold_cars(supplier, car)
+            car_stats[car.brand + " " + car.model] = self.get_number_of_sold_cars(supplier, car)
 
         data['car_stats'] = car_stats
         clients_stats = {}
-        clients_purchases_set = self.get_sold_cars(supplier = supplier)
+        clients_purchases_set = self.get_sold_cars(supplier=supplier)
 
         for clients_purchases in clients_purchases_set:
             carshowroom = clients_purchases.carshowroom
-            clients_stats[str(carshowroom.id) + " " +carshowroom.name] = self.get_number_of_sold_cars(
-                supplier = supplier,
-                carshowroom = carshowroom
+            clients_stats[str(carshowroom.id) + " " + carshowroom.name] = self.get_number_of_sold_cars(
+                supplier=supplier,
+                carshowroom=carshowroom
             )
 
         data['number of clients bought cars'] = clients_stats

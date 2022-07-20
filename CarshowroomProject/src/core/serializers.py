@@ -4,6 +4,7 @@ from src.core.models import CarModel
 from src.core.services import CarsService, UsersService
 from src.core.models import BaseUser
 
+
 carsService = CarsService()
 userseService = UsersService()
 
@@ -17,6 +18,7 @@ class CarSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return carsService.create_car(validated_data)
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseUser
@@ -29,8 +31,10 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return userseService.create_user(validated_data)
 
+
 class RestorePasswordSerializer(serializers.ModelSerializer):
-    password_2 = serializers.CharField(max_length = 240)
+    password_2 = serializers.CharField(max_length=240)
+
     class Meta:
         model = BaseUser
         fields = ('password', 'password_2')

@@ -7,4 +7,3 @@ class CarshowroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = CarshowroomModel
         fields = '__all__'
-

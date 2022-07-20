@@ -4,7 +4,7 @@ from django.urls import path, include
 from src.carshowroom.views import CarshowroomViewSet
 
 carshowroom_router = SimpleRouter()
-carshowroom_router.register(r'carshowroom', CarshowroomViewSet, basename = 'carshowroom')
+carshowroom_router.register(r'carshowroom', CarshowroomViewSet, basename='carshowroom')
 
 
 carshowroom_urls = [

@@ -16,7 +16,7 @@ class CreateOfferView(views.APIView):
         customer = self.service.get_customer(request.user.id)
         customer.car_charact = request.data
         customer.save()
-        return response.Response("Offer was created", status = status.HTTP_200_OK)
+        return response.Response("Offer was created", status=status.HTTP_200_OK)
 
 
 class CustomerViewSet(

@@ -9,10 +9,12 @@ from src.core.models import Brands, BodyTypes, FuelTypes
 from src.carshowroom.services import CarshowroomServices
 from src.suppliers.services import SuppliersService
 
+
 user_service = UsersService()
 car_service = CarsService()
 carshowroom_service = CarshowroomServices()
 supplier_service = SuppliersService()
+
 
 @pytest.fixture
 def user():
@@ -27,6 +29,7 @@ def user():
 
     user = user_service.create_user(user_dc)
     return user
+
 
 @pytest.fixture
 def car():
@@ -69,9 +72,11 @@ def supplier():
 
     return supplier_service.create_supplier(supplier_dc)
 
+
 @pytest.fixture
 def client():
     return APIClient()
+
 
 @pytest.fixture
 def factory():

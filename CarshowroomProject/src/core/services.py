@@ -12,9 +12,9 @@ class CarsService:
         return car
 
     def get_car(self, car_id=None, car_data=None):
-        if car_id != None:
+        if car_id is not None:
             return get_object_or_404(CarModel, id=car_id)
-        if car_data != None:
+        if car_data is not None:
             return get_object_or_404(CarModel, **car_data)
 
         raise NotFound()
@@ -38,10 +38,10 @@ class UsersService:
             user_id = access_token_obj['user_id']
             user = BaseUser.objects.get(id=user_id)
             return user
-        except Exception as e:
+        except Exception:
             return None
 
-    def get_user(self, user_id = None, email = None):
+    def get_user(self, user_id=None, email=None):
         if email:
             return get_object_or_404(BaseUser, email=email)
         if user_id:
@@ -59,9 +59,9 @@ class UsersService:
     def send_email(
             self,
             user,
-            url = 'api/user/confirm_email/',
-            title = 'Confirm email',
-            message = f'To confirm your email. You should follow the link http://0.0.0.0:8000/'
+            url='api/user/confirm_email/',
+            title='Confirm email',
+            message='To confirm your email. You should follow the link http://0.0.0.0:8000/'
     ):
         link = self.get_tokens_for_user(user)['access']
         send_mail(
@@ -74,9 +74,8 @@ class UsersService:
 
     def send_restore_password_email(self, user):
         self.send_email(
-            user = user,
-            url = 'api/user/restore_password/',
-            title = 'Restore password',
-            message = f'To restore your password. You should follow the link http://0.0.0.0:8000/'
+            user=user,
+            url='api/user/restore_password/',
+            title='Restore password',
+            message='To restore your password. You should follow the link http://0.0.0.0:8000/'
         )
-

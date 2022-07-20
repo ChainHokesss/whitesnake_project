@@ -7,6 +7,7 @@ from src.core.services import UsersService
 
 user_service = UsersService()
 
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'url',
@@ -14,6 +15,7 @@ user_service = UsersService()
 def test_get_list(url, client):
     response = client.get(url)
     assert response.status_code == 200
+
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
@@ -30,6 +32,7 @@ def test_get_entity(url, entity, client):
     response = client.get(url + str(entity.id) + '/')
     assert response.status_code == 200
 
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'url,entity',
@@ -42,6 +45,7 @@ def test_get_entity(url, entity, client):
 def test_create_entity(url, entity, client):
     response = client.post(url, model_to_dict(entity))
     assert response.status_code == 201
+
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
@@ -58,6 +62,7 @@ def test_delete_entity(url, entity, client):
     response = client.delete(url + str(entity.id) + '/')
     assert response.status_code == 204
 
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'url,entity',
@@ -71,6 +76,7 @@ def test_get_statistics(url, entity, client):
     response = client.get(url + str(entity.id) + '/get_statistics/')
     assert response.status_code == 200
 
+
 @pytest.mark.django_db
 def test_register(client):
     user_dc = {
@@ -83,6 +89,7 @@ def test_register(client):
     response = client.post('/api/user/register/', user_dc)
     assert response.status_code == 201
 
+
 @pytest.mark.django_db
 def test_send_restore_password_email(user, client):
     data = {
@@ -91,6 +98,7 @@ def test_send_restore_password_email(user, client):
     response = client.post('/api/user/send_restore_password_email/', data)
 
     assert response.status_code == 200
+
 
 @pytest.mark.django_db
 def test_restore_password(user, client):
@@ -101,11 +109,13 @@ def test_restore_password(user, client):
     response = client.post('/api/user/restore_password/' + user_service.get_tokens_for_user(user)['access'], data)
     assert response.status_code == 202
 
+
 @pytest.mark.django_db
 def test_send_confirm_email(user, client):
     client.credentials(HTTP_AUTHORIZATION='JWT ' + user_service.get_tokens_for_user(user)['access'])
     response = client.get('/api/user/send_confirm_email/')
     assert response.status_code == 200
+
 
 @pytest.mark.django_db
 def test_confirm_email(user, client):

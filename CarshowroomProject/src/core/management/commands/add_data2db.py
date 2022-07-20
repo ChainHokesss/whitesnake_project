@@ -20,6 +20,7 @@ class DefaultCharacteristics(Enum):
     mileage__gte = random.randint(0, 100000)
     mileage__lte = random.randint(0, 100000)
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         self._generate_cars()
@@ -33,31 +34,31 @@ class Command(BaseCommand):
     def _generate_cars(self):
         for i in range(10):
             CarModel.objects.get_or_create(
-                brand = random.choice(list(Brands)).value,
-                body_type = random.choice(list(BodyTypes)).value,
-                fuel_type = random.choice(list(FuelTypes)).value,
-                issue_year = random.randint(1990, datetime.now().year),
-                model = self.generate_random_string(random.randint(1, 4)),
-                mileage = random.randint(0, 100000),
+                brand=random.choice(list(Brands)).value,
+                body_type=random.choice(list(BodyTypes)).value,
+                fuel_type=random.choice(list(FuelTypes)).value,
+                issue_year=random.randint(1990, datetime.now().year),
+                model=self.generate_random_string(random.randint(1, 4)),
+                mileage=random.randint(0, 100000),
             )
 
     def _generate_suppliers(self):
         for i in range(10):
             SupplierModel.objects.get_or_create(
-                name = self.generate_random_string(random.randint(4, 10)),
-                foundation_date = random.randint(1900, datetime.now().year),
-                client_discount = random.randint(0, 10),
-                number_of_prod = random.randint(20, 500),
+                name=self.generate_random_string(random.randint(4, 10)),
+                foundation_date=random.randint(1900, datetime.now().year),
+                client_discount=random.randint(0, 10),
+                number_of_prod=random.randint(20, 500),
             )
 
     def _generate_supplier_car(self):
         for i in range(40):
             supplier_car, created = SupplierCar.objects.get_or_create(
-                supplier = SupplierModel.objects.get(id = random.randint(
+                supplier=SupplierModel.objects.get(id=random.randint(
                     SupplierModel.objects.aggregate(Min('id'))['id__min'],
                     SupplierModel.objects.aggregate(Max('id'))['id__max']
                 )),
-                car = CarModel.objects.get(id = random.randint(
+                car=CarModel.objects.get(id=random.randint(
                     CarModel.objects.aggregate(Min('id'))['id__min'],
                     CarModel.objects.aggregate(Max('id'))['id__max']
                 )),
@@ -98,7 +99,7 @@ class Command(BaseCommand):
         for i in range(10):
             if entity_class == SupplierModel:
                 discount, created = discount_entity_class.objects.get_or_create(
-                    supplier = entity_class.objects.get(id=random.randint(
+                    supplier=entity_class.objects.get(id=random.randint(
                         min_id,
                         max_id
                     )),

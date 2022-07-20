@@ -1,6 +1,6 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import decorators, status, exceptions, mixins
 from rest_framework.generics import GenericAPIView
 
@@ -22,6 +22,7 @@ class CarViewSet(
     queryset = CarModel.objects.filter(is_active=True)
     service = UsersService()
 
+
 class UserViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
@@ -39,7 +40,7 @@ class UserViewSet(
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        self.service.send_email(user = user)
+        self.service.send_email(user=user)
         return Response(
             self.service.get_tokens_for_user(user),
             status=status.HTTP_201_CREATED
@@ -59,7 +60,7 @@ class UserViewSet(
             user.save()
             return Response("Email is confirmed")
 
-        return Response("Error", status = status.HTTP_404_NOT_FOUND)
+        return Response("Error", status=status.HTTP_404_NOT_FOUND)
 
     @decorators.action(methods=('POST', ), detail=False)
     def send_restore_password_email(self, request):
@@ -67,7 +68,7 @@ class UserViewSet(
         if not email:
             return exceptions.ParseError()
 
-        user = self.service.get_user(email = email)
+        user = self.service.get_user(email=email)
         self.service.send_restore_password_email(user)
 
         return Response("Mail was send", status=status.HTTP_200_OK)
@@ -75,17 +76,17 @@ class UserViewSet(
 
 class RestorePasswordView(GenericAPIView):
     serializer_class = RestorePasswordSerializer
-    service =  UsersService()
+    service = UsersService()
     permission_classes = (AllowAny, )
 
     def post(self, request, token):
-        serializer = self.get_serializer(data = request.data)
-        serializer.is_valid(raise_exception = True)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         password_1 = serializer.data['password']
         password_2 = serializer.data['password_2']
         user = self.service.get_user_from_access_token(token)
         if password_1 != password_2:
-            return exceptions.ErrorDetail(detail = "passwords are not match")
+            return exceptions.ErrorDetail(detail="passwords are not match")
         user.set_password(password_1)
         user.save()
         return Response("Password was changed", status=status.HTTP_202_ACCEPTED)

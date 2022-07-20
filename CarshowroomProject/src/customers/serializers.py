@@ -8,4 +8,3 @@ class CustomerSerializer(ModelSerializer):
         model = CustomerModel
         fields = ('user', 'balance')
         read_only_fields = ('user', )
-

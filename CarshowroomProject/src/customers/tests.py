@@ -2,7 +2,9 @@ import pytest
 
 from src.core.services import UsersService
 
+
 user_service = UsersService()
+
 
 @pytest.mark.django_db
 def test_create_offer(user, client):
