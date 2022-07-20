@@ -18,7 +18,6 @@ class BodyTypes(Enum):
     def choices(cls):
         return [(item.value, item.name) for item in cls]
 
-
 class Brands(Enum):
     Audi = 'audi'
     Hyundai = 'Hyundai'

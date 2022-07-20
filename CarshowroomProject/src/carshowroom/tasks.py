@@ -1,5 +1,4 @@
 import decimal
-
 from celery import shared_task
 from datetime import datetime
 from django.db.models import F, Max, Sum
@@ -121,7 +120,7 @@ def check_supplier_benefit():
 
 @shared_task
 def accept_offer():
-    customers_set = CustomerModel.objects.all()
+    customers_set = CustomerModel.objects.filter(user__email_is_confirmed=True)
 
     for customer in customers_set:
         car_set = CarModel.objects.filter(**customer.car_charact, is_active=True)

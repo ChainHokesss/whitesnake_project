@@ -4,6 +4,10 @@ from src.suppliers.models import SupplierModel
 from src.carshowroom.models import SupplierPurchaseHistory
 
 class SuppliersService:
+    def create_supplier(self, supplier_data):
+        supplier, created = SupplierModel.objects.get_or_create(**supplier_data)
+        return supplier
+
     def get_supplier(self, supplier_id):
         return SupplierModel.objects.prefetch_related('car_list').get(id = supplier_id)
 

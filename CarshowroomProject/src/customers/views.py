@@ -22,7 +22,6 @@ class CreateOfferView(views.APIView):
 class CustomerViewSet(
     GenericViewSet,
     mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     mixins.RetrieveModelMixin
 ):
