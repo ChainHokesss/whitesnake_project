@@ -1,6 +1,6 @@
 import django_filters as filters
 
-from src.core.models import CarModel, Brands, BodyTypes,FuelTypes
+from src.core.models import CarModel, Brands, BodyTypes, FuelTypes
 
 
 class CarFilter(filters.FilterSet):
