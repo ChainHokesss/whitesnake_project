@@ -11,6 +11,7 @@ services:
     ports:
       - 8000:8000
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
       - EMAIL_HOST=$EMAIL_HOST
@@ -28,14 +29,14 @@ services:
     env_file:
       - ./.env
 
-  tests:
-    build:
-      context: .
-      dockerfile: ./Dockerfile-pytest
-    depends_on:
-      - db
-    env_file:
-      - ./.env
+#  tests:
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-pytest
+#    depends_on:
+#      - db
+#    env_file:
+#      - ./.env
 
   db:
     image: postgres:13-alpine
@@ -62,6 +63,7 @@ services:
     volumes:
       - ./CarshowroomProject:/app
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
       - POSTGRES_USER=$POSTGRES_USER
@@ -79,6 +81,7 @@ services:
     volumes:
       - ./CarshowroomProject:/app
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
       - POSTGRES_USER=$POSTGRES_USER
@@ -113,12 +116,11 @@ services:
       - "80:8080"
     # монтируем только те директории, в которых лежит статика, т.к. nginx с динамикой не будет работать. Также директорию с логами и файл настройки, который мы подготовили.
     volumes:
-      - ./CarshowroomProject/static:/app/static
-      - ./CarshowroomProject/media:/app/media
-      - ./CarshowroomProject/logs:/app/logs
+      - ./static:/static
       - ./docker/nginx:/etc/nginx/conf.d
     # и nginx зависит от контейнера python. Т.е. python должен быть запущен первым
     depends_on:
       - whitesnakeproject
+
 volumes:
   postgresql_data:
