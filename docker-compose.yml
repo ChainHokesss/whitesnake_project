@@ -28,6 +28,15 @@ services:
     env_file:
       - ./.env
 
+  tests:
+    build:
+      context: .
+      dockerfile: ./Dockerfile-pytest
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
   db:
     image: postgres:13-alpine
     volumes:
