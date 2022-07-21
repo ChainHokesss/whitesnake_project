@@ -3,10 +3,12 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import decorators, status, exceptions, mixins
 from rest_framework.generics import GenericAPIView
+from django_filters import rest_framework as filters
 
 from src.core.serializers import CarSerializer, UserSerializer, RestorePasswordSerializer
 from src.core.models import BaseUser, CarModel
 from src.core.services import UsersService
+from src.core.filters import CarFilter
 
 
 class CarViewSet(
@@ -21,6 +23,8 @@ class CarViewSet(
     permission_classes = (AllowAny, )
     queryset = CarModel.objects.filter(is_active=True)
     service = UsersService()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = CarFilter
 
 
 class UserViewSet(

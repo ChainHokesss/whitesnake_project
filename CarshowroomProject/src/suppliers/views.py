@@ -1,11 +1,13 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
 from rest_framework import mixins, permissions, decorators, generics, status
+from django_filters import rest_framework as filters
 
 from src.core.serializers import CarSerializer
 from src.suppliers.models import SupplierModel
 from src.suppliers.serializers import SupplierSerializer, SupplierCarSerializer, DiscountSerializer
 from src.suppliers.services import SuppliersService
+from src.suppliers.filters import SupplierFilter
 
 
 class SuppliersViewSet(
@@ -19,6 +21,8 @@ class SuppliersViewSet(
     queryset = SupplierModel.objects.all()
     permission_classes = (permissions.AllowAny, )
     service = SuppliersService()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = SupplierFilter
 
     @decorators.action(methods=('GET', ), detail=True)
     def get_cars(self, request, pk):
