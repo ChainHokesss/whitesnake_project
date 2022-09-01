@@ -6,12 +6,20 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: python3 manage.py runserver 0.0.0.0:8000
+    expose:
+      - 8000
     ports:
-      - "8000:8000"
+      - 8000:8000
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
+      - EMAIL_HOST=$EMAIL_HOST
+      - EMAIL_PORT=$EMAIL_PORT
+      - EMAIL_HOST_USER=$EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD=$EMAIL_HOST_PASSWORD
+      - EMAIL_USE_TLS=$EMAIL_USE_TLS
+      - EMAIL_USE_SSL=$EMAIL_USE_SSL
     depends_on:
       - db
       - redis
@@ -21,10 +29,19 @@ services:
     env_file:
       - ./.env
 
+#  tests:
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile-pytest
+#    depends_on:
+#      - db
+#    env_file:
+#      - ./.env
+
   db:
     image: postgres:13-alpine
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgresql_data:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
     environment:
@@ -46,6 +63,7 @@ services:
     volumes:
       - ./CarshowroomProject:/app
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
       - POSTGRES_USER=$POSTGRES_USER
@@ -63,6 +81,7 @@ services:
     volumes:
       - ./CarshowroomProject:/app
     environment:
+      - SECRET_KEY=$SECRET_KEY
       - DEBUG=1
       - DATABASE_URL=$DATABASE_URL
       - POSTGRES_USER=$POSTGRES_USER
@@ -84,5 +103,24 @@ services:
     env_file:
       - ./.env
 
+  nginx:
+    # при падении будет стараться подняться
+    restart: always
+    # только свежий nginx
+    image: nginx:latest
+    # слушает порт 8080
+    expose:
+      - 8080
+    # мапаем порт 80 на его 8080. Тогда сайт будет доступен по адресу localhost. Убедись, что порт у тебя не занят.
+    ports:
+      - "80:8080"
+    # монтируем только те директории, в которых лежит статика, т.к. nginx с динамикой не будет работать. Также директорию с логами и файл настройки, который мы подготовили.
+    volumes:
+      - ./static:/static
+      - ./docker/nginx:/etc/nginx/conf.d
+    # и nginx зависит от контейнера python. Т.е. python должен быть запущен первым
+    depends_on:
+      - whitesnakeproject
+
 volumes:
-  postgres_data:
+  postgresql_data:
